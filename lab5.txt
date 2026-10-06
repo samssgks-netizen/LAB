@@ -1,0 +1,83 @@
+% Task 1: Prolog Unification Queries
+
+% Query 1
+?- house = house.
+% Result: true.
+% Explanation: These unify because they are identical constants (atoms).
+
+% Query 2
+?- house = abc.
+% Result: false.
+% Explanation: These do not unify because a constant only unifies with itself, and 'house' is different from 'abc'.
+% Query 3
+?- edge(a,b) = edge(C,b).
+% Result: C = a.
+% Explanation: Both have the same name (edge) and same number of arguments. Variable C unifies with constant 'a', and the second arguments ('b') are already identical.
+
+% Query 4
+?- edge(a,d) = edge(C,B).
+% Result: C = a, B = d.
+% Explanation: Both have the same structure. Variable C unifies with 'a', and Variable B unifies with 'd'.
+
+% Query 5
+?- edge(C,B) = edge(a,d).
+% Result: C = a, B = d.
+% Explanation: This is the same as the previous query; the order of unification does not matter. C unifies with 'a', and B unifies with 'd'.
+
+% Query 6
+?- edge(A,f(g,h)) = edge(a,B).
+% Result: A = a, B = f(g,h).
+% Explanation: Variable A unifies with the constant 'a', and Variable B unifies with the whole structure 'f(g,h)'. A variable can unify with any term.
+
+% Query 7
+?- edge(A,A) = edge(b,c).
+% Result: false.
+% Explanation: The same variable 'A' appears twice, meaning it must hold the exact same value in both positions. It cannot be both 'b' and 'c' at the same time.
+
+% Query 8
+?- edge(A,A) = edge(b,b).
+% Result: A = b.
+% Explanation: The variable 'A' unifies with 'b' in the first position, and since the second position is also 'b', the match succeeds and A holds the value 'b'.
+
+% Query 9
+?- A=B, B=f.
+% Result: A = f, B = f.
+% Explanation: First, variables A and B become linked to each other. When B is instantiated to the constant 'f', A automatically takes the same value 'f'.
+
+% Query 10
+?- A=B, B=f, A=e.
+% Result: false.
+% Explanation: Variables A and B are linked, and B becomes 'f', which makes A become 'f' as well. The last step attempts to unify 'f' with 'e', which fails because they are different constants.
+
+
+% Task 2: Family Facts Queries
+
+% 1. Show the names of all females.
+?- female(Name).
+% Explanation: This query asks Prolog to find all variables 'Name' that are defined as female. 
+% Expected Result: Name = sara ; Name = nora.
+
+% 2. Show whether there is any male.
+?- male(_).
+% Explanation: Using the anonymous variable '_' checks if at least one male exists in the facts without needing to know his specific name.
+% Expected Result: true.
+
+% 3. Show the grandparent of Faisal.
+?- parent(Grandparent, Parent), parent(Parent, faisal).
+% Explanation: To find the grandparent, we look for a 'Grandparent' who is the parent of a 'Parent', and that 'Parent' is the parent of 'faisal'. We use a shared variable 'Parent' to link the two conditions.
+% Expected Result: Grandparent = ali, Parent = muhammad.
+
+% 4. Show all daughters of Ahmad.
+?- parent(ahmad, Daughter), female(Daughter).
+% Explanation: A daughter is defined as someone whose parent is 'ahmad' AND is also a 'female'. We use the shared variable 'Daughter' to satisfy both conditions\.
+% Expected Result: Daughter = sara ; Daughter = nora.
+
+% 5. Show whether Ahmad and Muhammad have a common parent.
+?- parent(CommonParent, ahmad), parent(CommonParent, muhammad).
+% Explanation: We use the shared variable 'CommonParent' to find out if the same person is the parent of both 'ahmad' and 'muhammad'.
+% Expected Result: CommonParent = ali. (This means they do have a common parent).
+
+% 6. Show whether Khan is the brother of Nora.
+?- parent(SharedParent, khan), parent(SharedParent, nora), male(khan).
+% Explanation: To be a brother, 'khan' and 'nora' must share the same parent ('SharedParent' variable), AND 'khan' must be a male.
+% Expected Result: SharedParent = ahmad. (The conditions match successfully).
